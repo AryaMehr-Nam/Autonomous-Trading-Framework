@@ -39,6 +39,8 @@ all_results.json
 *_results.json
 *backtest*.json
 Continuous_Learning_Log.md
-docs/screenshots/backtest*
+docs/screenshots/backtest_full.png
+!docs/screenshots/backtest_overview.png
+!config/sample_2026_strategies.json
 *.html
 !dashboard/static/*.html
