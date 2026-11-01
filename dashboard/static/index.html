@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeAgent | Live Monitor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob purple"></div>
+        <div class="blob cyan"></div>
+    </div>
+
+    <div class="app-container">
+        <header class="glass-header">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <h1>TradeAgent <span>Terminal</span></h1>
+            </div>
+            <div class="header-right">
+                <span class="refresh-timer" id="refresh-timer">Refreshing in 5s</span>
+                <div class="status-indicator">
+                    <div class="pulsing-dot"></div>
+                    <span>Live MT5 Connection</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+
+            <!-- Account Overview Panel -->
+            <section class="glass-panel account-panel">
+                <h2>Account Overview</h2>
+                <div class="account-stats">
+                    <div class="stat-box main-stat">
+                        <span class="label">Balance</span>
+                        <span class="value" id="acc-balance">$0.00</span>
+                    </div>
+                    <div class="stat-box main-stat">
+                        <span class="label">Equity</span>
+                        <span class="value highlight" id="acc-equity">$0.00</span>
+                    </div>
+                </div>
+                <div class="account-stats-secondary">
+                    <div class="stat-box">
+                        <span class="label">Margin Used</span>
+                        <span class="value" id="acc-margin">$0.00</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="label">Free Margin</span>
+                        <span class="value" id="acc-free">$0.00</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="label">Leverage</span>
+                        <span class="value" id="acc-leverage">1:1</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sentiment Panel -->
+            <section class="glass-panel sentiment-panel">
+                <h2>AI News Sentiment</h2>
+                <div class="sentiment-container">
+                    <div class="sentiment-score-circle" id="sentiment-circle">
+                        <span class="score" id="sentiment-score">0.0</span>
+                    </div>
+                    <div class="sentiment-details">
+                        <span class="tone" id="sentiment-tone">NEUTRAL</span>
+                        <span class="last-updated" id="sentiment-time">Last update: --</span>
+                        <span class="sentiment-desc">FinBERT Real-Time Analysis</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Intelligence Core Panel -->
+            <section class="glass-panel intelligence-panel">
+                <div class="panel-header">
+                    <h2>🧠 Intelligence Core</h2>
+                    <span class="badge engine-badge" id="backtest-engine">Optuna Walk-Forward AI</span>
+                </div>
+                <div class="strategy-container" id="strategy-container">
+                    <div style="color:var(--text-dim); text-align:center;">Loading strategies...</div>
+                </div>
+            </section>
+
+            <!-- Live Order Book Panel -->
+            <section class="glass-panel positions-panel">
+                <div class="panel-header">
+                    <h2>Live Order Book</h2>
+                    <span class="badge" id="pos-count">0 Active</span>
+                </div>
+                <div class="table-container">
+                    <table class="glass-table">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Type</th>
+                                <th>Volume</th>
+                                <th>Open Price</th>
+                                <th>Current Price</th>
+                                <th>P&amp;L</th>
+                            </tr>
+                        </thead>
+                        <tbody id="positions-body">
+                            <tr><td colspan="6" style="text-align:center;color:var(--text-dim)">No active positions</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Bot Activity Log Panel -->
+            <section class="glass-panel log-panel">
+                <div class="panel-header">
+                    <h2>⚙️ Bot Activity Log</h2>
+                    <span class="badge" id="log-status">Live</span>
+                </div>
+                <div class="log-container" id="bot-log">
+                    <span style="color:var(--text-dim)">Loading log...</span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

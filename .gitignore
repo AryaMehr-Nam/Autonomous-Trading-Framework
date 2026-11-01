@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Environment and sensitive keys
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.key
+*.pem
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# Logs, backtests, and private trading journals
+logs/
+*.log
+temp_resp.txt
+*.duckdb*
+*.wal
+data_store/
+data/*.duckdb*
+data/*.wal
+data/*.csv
+backtest_results.html
+all_results.json
+*_results.json
+*backtest*.json
+Continuous_Learning_Log.md
+docs/screenshots/backtest*
+*.html
+!dashboard/static/*.html

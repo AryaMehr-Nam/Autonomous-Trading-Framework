@@ -1,0 +1,212 @@
+# ============================================================
+# TradeAgent — Trading Parameters Configuration
+# ============================================================
+# Modify these values to tune agent behavior.
+# Restart the agent after changes.
+# ============================================================
+
+general:
+  watchlist:
+    forex:
+      - EUR/USD
+      - GBP/USD
+      - XAU/USD
+      - US30
+    crypto:
+      - BTC/USDT
+      - ETH/USDT
+    equity:
+      - AAPL
+      - MSFT
+      - TSLA
+
+  timeframes:
+    active:
+      - M1    # Ultra short-term scalps
+      - M5    # Short-term scalps
+      - M15   # High win-rate momentum & breakout
+      - H1    # Medium-term trend context
+      - H4    # Long-term swings
+    
+  scan_interval_seconds: 5    # 5-second ultra-fast micro-scalp loop
+
+# ── Risk Management ─────────────────────────────────────────
+risk:
+  risk_per_trade_pct: 1.5       # Max risk per trade (% of equity)
+  max_daily_drawdown_pct: 8.0   # Daily circuit breaker
+  max_weekly_drawdown_pct: 15.0 # Full stop if weekly loss exceeds this
+  max_rolling_drawdown_pct: 20.0 # Rolling peak drawdown circuit breaker
+  max_open_positions: 4         # Fast scalping capacity
+  max_correlated_positions: 5   # Max positions in correlated pairs
+  min_risk_reward_ratio: 1.5    # Minimum RR to accept a trade
+  min_win_rate: 0.50            # Optimized for 54-58% Micro-VWAP & NW Scalpers (PF > 3.0)
+  max_dollar_risk: 3.00         # HARD CAP: Maximum $3.00 dollar risk per trade
+  kelly_fraction: 0.25          # Conservative Kelly fraction
+  max_allowed_spread_points: 50 # Spread protection
+  dynamic_kelly_drawdown_scaling: true
+  
+  stop_loss:
+    type: fixed                 # Tight fixed micro-scalp stops
+    atr_multiplier: 1.2         # Dynamic ATR fallback
+    fixed_pips: 12              # Tight 12-pip micro-scalp SL
+  
+  take_profit:
+    type: fixed                 # Tight fixed micro-scalp targets
+    atr_multiplier: 2.4         # 1:2 R/R target
+    fixed_pips: 24              # 24-pip micro-scalp TP (1:2 RR)
+    partial_close_pct: 50       # Bank 50% at 1R, trail the rest
+  
+  trailing_stop:
+    enabled: true
+    type: breakeven             # Lock entry as soon as scalp moves 1R
+    atr_multiplier: 1.0
+    breakeven_trigger_r: 1.0    # Move SL to entry after 1.0R profit
+    breakeven_trigger_pips: 10  # Fallback 10-pip threshold
+    spread_buffer_pips: 2       # Lock entry + 2 pips to cover broker spread
+
+# ── Asset-to-Strategy Routing (Micro-Scalp & Mean-Reversion Champions) ──
+asset_strategies:
+  XAU/USD: "mean_reversion"     # Micro-VWAP & NW Boundary Snapback (57.4% WR, PF 2.11, Sharpe 11.92)
+  US30: "mean_reversion"        # Micro-VWAP Snapback (54.9% WR, PF 2.57, Sharpe 18.77)
+  EUR/USD: "mean_reversion"     # Micro-VWAP Snapback (57.9% WR, PF 3.12, Sharpe 23.14)
+  GBP/USD: "mean_reversion"     # Micro-VWAP Snapback (57.9% WR, PF 3.26, Sharpe 24.58)
+  USD/JPY: "mean_reversion"     # Micro-VWAP Snapback (56.2% WR, PF 2.67, Sharpe 19.72)
+  BTC/USDT: "mean_reversion"    # Micro-VWAP Snapback (57.6% WR, PF 3.26, Sharpe 27.18)
+  ETH/USDT: "mean_reversion"    # Micro-VWAP Snapback (58.2% WR, PF 3.26, Sharpe 25.79)
+
+# ── Technical Analysis ───────────────────────────────────────
+technical:
+  indicators:
+    trend:
+      - name: ema
+        periods: [7, 36, 50, 200] # 7 and 36 derived from Optuna Walk-Forward Optimization
+      - name: supertrend
+        period: 10
+        multiplier: 3.0
+      - name: adx
+        period: 14
+        threshold: 25            # ADX > 25 = trending
+      - name: ichimoku
+        tenkan: 9
+        kijun: 26
+        senkou: 52
+    
+    momentum:
+      - name: rsi
+        period: 14
+        overbought: 70
+        oversold: 30
+      - name: macd
+        fast: 12
+        slow: 26
+        signal: 9
+      - name: stochastic
+        k_period: 14
+        d_period: 3
+        overbought: 80
+        oversold: 20
+    
+    volatility:
+      - name: bollinger_bands
+        period: 20
+        std_dev: 2.0
+      - name: atr
+        period: 14
+      - name: keltner_channels
+        period: 20
+        multiplier: 1.5
+    
+    volume:
+      - name: obv
+      - name: mfi
+        period: 14
+        overbought: 80
+        oversold: 20
+
+  # Minimum confluence score to generate a signal (0.0 - 1.0)
+  min_confluence_score: 0.70
+  
+  # Weights for each indicator category in confluence scoring
+  weights:
+    trend: 0.35
+    momentum: 0.25
+    volatility: 0.20
+    volume: 0.10
+    fundamental: 0.05
+    sentiment: 0.05
+
+# ── Fundamental Analysis ─────────────────────────────────────
+fundamentals:
+  enabled: true
+  
+  # Pause trading X minutes before/after high-impact events
+  event_pause_minutes_before: 30
+  event_pause_minutes_after: 15
+  
+  # Minimum impact level to trigger event pause (low | medium | high)
+  min_event_impact: high
+  
+  # Interest rate differential threshold for carry trade signals
+  carry_trade_differential_threshold: 1.5
+
+# ── Sentiment Analysis ───────────────────────────────────────
+sentiment:
+  enabled: true
+  model: finbert                 # finbert | llm
+  
+  # Min sentiment confidence to include in signal
+  min_confidence: 0.6
+  
+  # Rolling sentiment window (number of articles)
+  rolling_window: 20
+  
+  # LLM settings (only used if model=llm)
+  llm:
+    provider: openai             # openai | anthropic
+    model: gpt-4o-mini
+    max_tokens: 500
+
+# ── ML Models ────────────────────────────────────────────────
+ml:
+  enabled: true
+  
+  llm_validation:
+    enabled: true
+    mode: "strict"                 # strict | lenient (strict blocks if invalid, lenient just reduces confidence)
+    
+  lightgbm:
+    enabled: true
+    prediction_horizon_bars: 12    # Predict direction X bars ahead
+    min_confidence: 0.10           # Min prediction probability
+    retrain_interval_hours: 168    # Retrain weekly
+    walk_forward_window: 500       # Training window size
+    
+  reinforcement_learning:
+    enabled: false                 # Disabled by default (needs training)
+    algorithm: PPO
+    training_timesteps: 100000
+    
+  ensemble:
+    min_agreement: 0.1             # Min model agreement to trade
+    voting_method: confidence_weighted  # majority | confidence_weighted
+
+# ── Backtesting ──────────────────────────────────────────────
+backtesting:
+  default_period_days: 365
+  initial_capital: 200
+  commission_pct: 0.001           # 0.1% per trade
+  slippage_pips: 1
+  
+  optimization:
+    method: bayesian              # grid | bayesian
+    n_trials: 100                 # Optuna trials
+    walk_forward_splits: 5        # Number of WF splits
+
+# ── Notifications ────────────────────────────────────────────
+notifications:
+  telegram:
+    enabled: true
+    send_trade_alerts: true
+    send_daily_summary: true
+    daily_summary_time: "21:00"   # UTC time for daily report
+    send_risk_alerts: true

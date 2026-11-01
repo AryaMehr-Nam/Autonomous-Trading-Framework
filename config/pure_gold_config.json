@@ -1,0 +1,105 @@
+{
+  "version": "9.6-Modular",
+  "engine_name": "Pure Gold Sniper Master Compounder",
+  "symbol": "XAUUSD",
+  "risk": {
+    "risk_percent": 0.025,
+    "macro_risk_percent": 0.0125,
+    "min_lot": 0.01,
+    "max_lot": 1.0,
+    "emergency_hard_loss_pct": 0.025,
+    "max_consecutive_losses": 2,
+    "circuit_breaker_pause_hours": 4.0,
+    "anti_chop_cooldown_seconds": 600,
+    "max_spread_macro": 45,
+    "max_spread_scalp": 42,
+    "adr_cap": 0.85
+  },
+  "trade_management": {
+    "tp1_r_multiple": 1.8,
+    "tp2_r_multiple": 3.5,
+    "tp1_bank_fraction": 0.8,
+    "risk_free_buffer": 0.3,
+    "runner_trail_trigger_r": 2.2,
+    "runner_trail_distance_r": 1.2
+  },
+  "sessions": {
+    "london_prime": {
+      "start": "07:30",
+      "end": "11:30"
+    },
+    "ny_prime": {
+      "start": "12:30",
+      "end": "17:00"
+    },
+    "rollover_blackout": {
+      "start": "23:50",
+      "end": "00:15"
+    }
+  },
+  "strategies": {
+    "h4_macro_swing": {
+      "enabled": true,
+      "lane": "MACRO-SWING H4",
+      "min_score": 75,
+      "min_risk": 3.0,
+      "max_risk": 7.5,
+      "tp1_r_multiple": 1.5,
+      "tp2_r_multiple": 3.0
+    },
+    "prime_m15_scalp": {
+      "enabled": true,
+      "lane": "PRIME-SCALP M5/M15",
+      "clv_buy_trigger": 0.58,
+      "clv_sell_trigger": 0.42,
+      "min_risk": 1.5,
+      "max_risk": 3.8,
+      "tp1_r_multiple": 1.8,
+      "tp2_r_multiple": 3.5,
+      "sl_buffer": 0.4
+    },
+    "smc_liquidity_sweep": {
+      "enabled": true,
+      "lane": "SMC-LIQUIDITY-SWEEP M15",
+      "lookback_bars": 24,
+      "min_sweep_dist": 0.15,
+      "max_sweep_dist": 3.5,
+      "clv_rejection_bull": 0.58,
+      "clv_rejection_bear": 0.45,
+      "sl_buffer": 0.45,
+      "min_risk": 1.8,
+      "max_risk": 4.5,
+      "tp1_r_multiple": 1.5,
+      "tp2_r_multiple": 3.2,
+      "adr_cap": 0.85
+    },
+    "asian_judas_swing": {
+      "enabled": true,
+      "lane": "ASIAN-JUDAS-SWING M15",
+      "judas_start_hour": 7,
+      "judas_end_hour": 10,
+      "min_judas_sweep": 0.3,
+      "max_judas_sweep": 3.5,
+      "clv_rejection_bull": 0.6,
+      "clv_rejection_bear": 0.4,
+      "sl_buffer": 0.4,
+      "min_risk": 1.5,
+      "max_risk": 4.5,
+      "tp1_r_multiple": 1.8,
+      "tp2_r_multiple": 3.5
+    },
+    "vwap_khakestar_snapback": {
+      "enabled": true,
+      "lane": "VWAP-SNAPBACK M15",
+      "vwap_window": 28,
+      "sigma_multiplier": 2.1,
+      "clv_rejection_bull": 0.58,
+      "clv_rejection_bear": 0.42,
+      "sl_buffer": 0.4,
+      "min_risk": 1.5,
+      "max_risk": 4.0,
+      "tp1_r_multiple": 1.8,
+      "tp2_r_multiple": 3.2
+    }
+  }
+}

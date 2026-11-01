@@ -1,0 +1,56 @@
+# Core Dependencies
+
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+pyyaml>=6.0
+loguru>=0.7.0
+python-dotenv>=1.0.0
+
+# Data & Storage
+duckdb>=0.9.0
+pyarrow>=14.0.0
+pandas>=2.1.0
+numpy>=1.25.0
+redis>=5.0.0
+aiohttp>=3.9.0
+
+# Market Data Providers
+yfinance>=0.2.30
+ccxt>=4.0.0
+oandapyV20>=0.7.0
+MetaTrader5>=5.0.45
+
+# Technical Analysis
+pandas-ta>=0.3.14b1
+
+# Fundamental Data
+fredapi>=0.5.1
+finnhub-python>=2.4.18
+
+# Sentiment & NLP
+transformers>=4.36.0
+torch>=2.1.0
+newsapi-python>=0.2.7
+
+
+# ML / AI
+lightgbm>=4.1.0
+xgboost>=2.0.0
+scikit-learn>=1.3.0
+stable-baselines3>=2.2.0
+gymnasium>=0.29.0
+optuna>=3.4.0
+
+# Backtesting
+vectorbt>=0.26.0
+
+# Notifications
+python-telegram-bot>=20.7
+
+# Dashboard
+# (Removed to prevent Windows Long Path errors)
+
+# Utilities
+httpx>=0.25.0
+python-dateutil>=2.8.0
+pytz>=2023.3
